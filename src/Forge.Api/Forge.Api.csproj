@@ -6,4 +6,9 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="WolverineFx" Version="5.12.1" />
+    <PackageReference Include="WolverineFx.Http" Version="5.12.1" />
+  </ItemGroup>
+
 </Project>

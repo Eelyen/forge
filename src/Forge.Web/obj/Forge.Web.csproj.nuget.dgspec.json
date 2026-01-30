@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\Forge.Web\\Forge.Web.csproj": {}
+    "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\src\\Forge.Web\\Forge.Web.csproj": {}
   },
   "projects": {
-    "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\Forge.Web\\Forge.Web.csproj": {
+    "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\src\\Forge.Web\\Forge.Web.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\Forge.Web\\Forge.Web.csproj",
+        "projectUniqueName": "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\src\\Forge.Web\\Forge.Web.csproj",
         "projectName": "Forge.Web",
-        "projectPath": "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\Forge.Web\\Forge.Web.csproj",
+        "projectPath": "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\src\\Forge.Web\\Forge.Web.csproj",
         "packagesPath": "C:\\Users\\eelye\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\Forge.Web\\obj\\",
+        "outputPath": "C:\\Users\\eelye\\OneDrive\\Documents\\source\\repos\\forge\\src\\Forge.Web\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

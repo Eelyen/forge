@@ -1,4 +1,6 @@
 <Solution>
-  <Project Path="Forge.Api/Forge.Api.csproj" />
-  <Project Path="Forge.Web/Forge.Web.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/Forge.Api/Forge.Api.csproj" />
+    <Project Path="src/Forge.Web/Forge.Web.csproj" />
+  </Folder>
 </Solution>
