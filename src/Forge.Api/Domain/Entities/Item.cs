@@ -22,12 +22,11 @@ public class Item : Entity<ItemId>
         string name,
         UnitKind unitKind = UnitKind.Item,
         string? description = null,
-        bool isRawResource = false,
-        ItemId? id = null)
+        bool isRawResource = false)
     {
         var item = new Item
         {
-            Id = id ?? ItemId.New(),
+            Id = ItemId.New(),
             Name = Guard.Required(name, nameof(name), maxLength: ItemConstraints.NameMaxLength),
             Description = Guard.Optional(description, nameof(description), maxLength: ItemConstraints.DescriptionMaxLength),
             UnitKind = unitKind,

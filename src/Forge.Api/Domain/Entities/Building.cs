@@ -17,12 +17,11 @@ public sealed class Building : Entity<BuildingId>
     public static Building Create(
         string slug,
         string name,
-        string? description = null,
-        BuildingId? id = null)
+        string? description = null)
     {
         var building = new Building
         {
-            Id = id ?? BuildingId.New(),
+            Id = BuildingId.New(),
             Name = Guard.Required(name, nameof(name), BuildingConstraints.NameMaxLength),
             Description = Guard.Optional(description, nameof(description), BuildingConstraints.DescriptionMaxLength)
         };

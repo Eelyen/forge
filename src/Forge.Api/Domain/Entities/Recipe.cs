@@ -32,12 +32,11 @@ public class Recipe : Entity<RecipeId>
         IEnumerable<RecipeLine> ingredients,
         IEnumerable<RecipeLine> products,
         IEnumerable<BuildingId>? producedIn = null,
-        string? description = null,
-        RecipeId? id = null)
+        string? description = null)
     {
         var recipe = new Recipe
         {
-            Id = id ?? RecipeId.New(),
+            Id = RecipeId.New(),
             Name = Guard.Required(name, nameof(name), RecipeConstraints.NameMaxLength),
             Description = Guard.Optional(description, nameof(description), RecipeConstraints.DescriptionMaxLength),
             CycleSeconds = Guard.InRange(cycleSeconds, nameof(cycleSeconds), RecipeConstraints.MinCycleSeconds, RecipeConstraints.MaxCycleSeconds)
