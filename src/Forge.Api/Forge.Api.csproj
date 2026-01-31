@@ -13,8 +13,8 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="10.0.2" />
-    <PackageReference Include="WolverineFx" Version="5.12.1" />
-    <PackageReference Include="WolverineFx.Http" Version="5.12.1" />
+    <PackageReference Include="WolverineFx" Version="5.13.0" />
+    <PackageReference Include="WolverineFx.Http" Version="5.13.0" />
   </ItemGroup>
 
 </Project>
