@@ -32,10 +32,10 @@ public class Plan : Entity<PlanId>
     }
 
     public void Rename(string name) =>
-        Name = Guard.Required(name, nameof(name), RecipeConstraints.NameMaxLength);
+        Name = Guard.Required(name, nameof(name), PlanConstraints.NameMaxLength);
 
     public void ChangeSlug(string slug) =>
-        Slug = Guard.Required(Slugify.Normalize(slug), nameof(slug), RecipeConstraints.SlugMaxLength);
+        Slug = Guard.Required(Slugify.Normalize(slug), nameof(slug), PlanConstraints.SlugMaxLength);
 
     public void ReplaceTargets(IEnumerable<PlanTarget> targets)
     { 

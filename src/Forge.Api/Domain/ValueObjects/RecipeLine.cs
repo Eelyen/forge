@@ -1,3 +1,3 @@
 ﻿namespace Forge.Api.Domain.ValueObjects;
 
-public readonly record struct RecipeLine(ItemId ItemId, decimal AmountPerCycle);
+public record RecipeLine(ItemId ItemId, decimal AmountPerCycle);
