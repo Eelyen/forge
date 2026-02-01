@@ -2,9 +2,9 @@
 using Forge.Api.Domain.Constraints;
 using Forge.Api.Domain.Entities;
 using Forge.Api.Domain.ValueObjects;
+using Forge.Api.Infrastructure.Data.ValueConverters;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Forge.Api.Infrastructure.Data;
 
@@ -59,17 +59,22 @@ public class ForgeDbContext : DbContext
         }
     }
 
-    private static readonly ValueConverter<ItemId, Guid> ItemIdConverter =
-        new(v => v.Value, v => new ItemId(v));
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        base.ConfigureConventions(configurationBuilder);
 
-    private static readonly ValueConverter<BuildingId, Guid> BuildingIdConverter =
-        new(v => v.Value, v => new BuildingId(v));
+        // Find all record structs in the Domain that implement IStronglyTypedId
+        var idTypes = typeof(ItemId).Assembly.GetTypes()
+            .Where(t => t.IsValueType && t.GetInterfaces()
+                .Any(i => i.IsGenericType && i.GetGenericTypeDefinition() == typeof(IStronglyTypedId<>)));
 
-    private static readonly ValueConverter<RecipeId, Guid> RecipeIdConverter =
-        new(v => v.Value, v => new RecipeId(v));
-
-    private static readonly ValueConverter<PlanId, Guid> PlanIdConverter =
-        new(v => v.Value, v => new PlanId(v));
+        foreach (var idType in idTypes)
+        {
+            // Dynamically create the converter type for this specific ID
+            var converterType = typeof(SqlSequentialIdConverter<>).MakeGenericType(idType);
+            configurationBuilder.Properties(idType).HaveConversion(converterType);
+        }
+    }
 
     private static void ConfigureItem(ModelBuilder modelBuilder)
     {
@@ -77,7 +82,7 @@ public class ForgeDbContext : DbContext
 
         b.ToTable("Items");
         b.HasKey(x => x.Id);
-        b.Property(x => x.Id).HasConversion(ItemIdConverter).ValueGeneratedNever();
+        b.Property(x => x.Id).ValueGeneratedNever();
         b.Property(x => x.Slug).IsRequired().HasMaxLength(ItemConstraints.SlugMaxLength);
         b.Property(x => x.Name).IsRequired().HasMaxLength(ItemConstraints.NameMaxLength);
         b.Property(x => x.Description).HasMaxLength(ItemConstraints.DescriptionMaxLength);
@@ -91,7 +96,7 @@ public class ForgeDbContext : DbContext
         var b = modelBuilder.Entity<Building>();
         b.ToTable("Buildings");
         b.HasKey(x => x.Id);
-        b.Property(x => x.Id).HasConversion(BuildingIdConverter).ValueGeneratedNever();
+        b.Property(x => x.Id).ValueGeneratedNever();
         b.Property(x => x.Slug).IsRequired().HasMaxLength(BuildingConstraints.SlugMaxLength);
         b.Property(x => x.Name).IsRequired().HasMaxLength(BuildingConstraints.NameMaxLength);
         b.Property(x => x.Description).HasMaxLength(BuildingConstraints.DescriptionMaxLength);
@@ -105,7 +110,7 @@ public class ForgeDbContext : DbContext
         var b = modelBuilder.Entity<Recipe>();
         b.ToTable("Recipes");
         b.HasKey(x => x.Id);
-        b.Property(x => x.Id).HasConversion(RecipeIdConverter).ValueGeneratedNever();
+        b.Property(x => x.Id).ValueGeneratedNever();
         b.Property(x => x.Slug).IsRequired().HasMaxLength(RecipeConstraints.SlugMaxLength);
         b.Property(x => x.Name).IsRequired().HasMaxLength(RecipeConstraints.NameMaxLength);
         b.Property(x => x.Description).HasMaxLength(RecipeConstraints.DescriptionMaxLength);
@@ -122,11 +127,7 @@ public class ForgeDbContext : DbContext
         {
             owned.ToTable("RecipeIngredients");
             owned.WithOwner().HasForeignKey(nameof(RecipeId));
-
-            owned.Property<RecipeId>(nameof(RecipeId)).HasConversion(RecipeIdConverter);
-            owned.Property(x => x.ItemId).HasConversion(ItemIdConverter);
             owned.Property(x => x.AmountPerCycle).HasPrecision(18, 3);
-
             owned.HasKey(nameof(RecipeId), nameof(RecipeLine.ItemId));
         });
 
@@ -134,8 +135,6 @@ public class ForgeDbContext : DbContext
         {
             owned.ToTable("RecipeProducts");
             owned.WithOwner().HasForeignKey(nameof(RecipeId));
-            owned.Property<RecipeId>(nameof(RecipeId)).HasConversion(RecipeIdConverter);
-            owned.Property(x => x.ItemId).HasConversion(ItemIdConverter);
             owned.Property(x => x.AmountPerCycle).HasPrecision(18, 3);
             owned.HasKey(nameof(RecipeId), nameof(RecipeLine.ItemId));
         });
@@ -144,8 +143,6 @@ public class ForgeDbContext : DbContext
         {
             owned.ToTable("RecipeProducedIn");
             owned.WithOwner().HasForeignKey(nameof(RecipeId));
-            owned.Property<RecipeId>(nameof(RecipeId)).HasConversion(RecipeIdConverter);
-            owned.Property<BuildingId>(nameof(BuildingId)).HasConversion(BuildingIdConverter);
             owned.HasKey(nameof(RecipeId), nameof(BuildingId));
         });
     }
@@ -155,7 +152,7 @@ public class ForgeDbContext : DbContext
         var b = modelBuilder.Entity<Plan>();
         b.ToTable("Plans");
         b.HasKey(x => x.Id);
-        b.Property(x => x.Id).HasConversion(PlanIdConverter).ValueGeneratedNever();
+        b.Property(x => x.Id).ValueGeneratedNever();
         b.Property(x => x.Slug).IsRequired().HasMaxLength(PlanConstraints.SlugMaxLength);
         b.Property(x => x.Name).IsRequired().HasMaxLength(PlanConstraints.NameMaxLength);
         b.Property(x => x.CreatedUtc).IsRequired();
@@ -169,8 +166,6 @@ public class ForgeDbContext : DbContext
         {
             owned.ToTable("PlanTargets");
             owned.WithOwner().HasForeignKey(nameof(PlanId));
-            owned.Property<PlanId>(nameof(PlanId)).HasConversion(PlanIdConverter);
-            owned.Property(x => x.ItemId).HasConversion(ItemIdConverter);
             owned.Property(x => x.AmountPerCycle).HasPrecision(18, 3);
             owned.HasKey(nameof(PlanId), nameof(PlanTarget.ItemId));
         });
@@ -179,8 +174,6 @@ public class ForgeDbContext : DbContext
         {
             owned.ToTable("PlanInputs");
             owned.WithOwner().HasForeignKey(nameof(PlanId));
-            owned.Property<PlanId>(nameof(PlanId)).HasConversion(PlanIdConverter);
-            owned.Property(x => x.ItemId).HasConversion(ItemIdConverter);
             owned.Property(x => x.AmountPerCycle).HasPrecision(18, 3);
             owned.HasKey(nameof(PlanId), nameof(PlanInput.ItemId));
         });

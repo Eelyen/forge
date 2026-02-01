@@ -1,7 +1,10 @@
-﻿namespace Forge.Api.Domain.ValueObjects;
+﻿using Forge.Api.Domain.Abstractions;
 
-public readonly record struct PlanId(Guid Value)
+namespace Forge.Api.Domain.ValueObjects;
+
+public readonly record struct PlanId(Guid Value) : IStronglyTypedId<PlanId>
 {
     public static PlanId New() => new(Guid.CreateVersion7());
+    public static PlanId FromGuid(Guid value) => new(value);
     public override string ToString() => Value.ToString();
 }
