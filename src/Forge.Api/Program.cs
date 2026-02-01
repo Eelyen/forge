@@ -14,13 +14,7 @@ builder.AddServiceDefaults();
 builder.Services.AddOpenApi();
 
 // Infrastructure
-builder.Services.AddDbContext<ForgeDbContext>(options =>
-{
-    var cs = builder.Configuration.GetConnectionString("ForgeDb")
-             ?? "Data Source=forge.db";
-
-    options.UseSqlite(cs);
-});
+builder.AddSqliteDbContext<ForgeDbContext>("forgeDb");
 
 // Wolverine
 builder.Host.UseWolverine();

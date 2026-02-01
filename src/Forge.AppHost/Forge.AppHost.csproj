@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Forge.Web\Forge.Web.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Aspire.Hosting.Sqlite" Version="13.1.2-beta.514" />
+  </ItemGroup>
+
 </Project>
