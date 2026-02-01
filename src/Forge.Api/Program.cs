@@ -28,13 +28,11 @@ builder.Host.UseWolverine();
 
 var app = builder.Build();
 
-// Early database creation for dev purposes
-using (var scope = app.Services.CreateScope())
+if (app.Environment.IsDevelopment())
 {
-    var db = scope.ServiceProvider.GetRequiredService<ForgeDbContext>();
-    db.Database.EnsureCreated();
+    app.UseDeveloperExceptionPage();
+    await app.Services.InitializeDatabaseAsync();
 }
-
 
 app.MapGet("/ping", (string? name, IMessageBus bus) => bus.InvokeAsync<Ping.Result>(new Ping.Query(name)));
 
