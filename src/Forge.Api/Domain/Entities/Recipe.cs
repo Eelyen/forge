@@ -19,11 +19,11 @@ public class Recipe : Entity<RecipeId>
 
     private readonly List<RecipeLine> _ingredients = [];
     private readonly List<RecipeLine> _products = [];
-    private readonly List<BuildingId> _producedIn = [];
+    private readonly List<RecipeBuilding> _producedIn = [];
 
     public IReadOnlyCollection<RecipeLine> Ingredients => _ingredients;
     public IReadOnlyCollection<RecipeLine> Products => _products;
-    public IReadOnlyCollection<BuildingId> ProducedIn => _producedIn;
+    public IReadOnlyCollection<RecipeBuilding> ProducedIn => _producedIn;
 
     public static Recipe Create(
         string slug,
@@ -31,7 +31,7 @@ public class Recipe : Entity<RecipeId>
         decimal cycleSeconds,
         IEnumerable<RecipeLine> ingredients,
         IEnumerable<RecipeLine> products,
-        IEnumerable<BuildingId>? producedIn = null,
+        IEnumerable<RecipeBuilding>? producedIn = null,
         string? description = null)
     {
         var recipe = new Recipe
@@ -71,16 +71,17 @@ public class Recipe : Entity<RecipeId>
     public void ReplaceProducts(IEnumerable<RecipeLine> products) =>
         ReplaceLines(_products, products, nameof(products));
 
-    public void ReplaceProducedIn(IEnumerable<BuildingId> producedIn)
+    public void ReplaceProducedIn(IEnumerable<RecipeBuilding> buildings)
     {
-        Guard.NotNull(producedIn, nameof(producedIn));
+        Guard.NotNull(buildings, nameof(buildings));
+                
+        foreach (var building in buildings)
+        {
+            Guard.NotDefault(building.BuildingId, nameof(buildings));            
+        }
 
         _producedIn.Clear();
-        foreach (var b in producedIn)
-        {
-            Guard.NotDefault(b, nameof(producedIn));
-            _producedIn.Add(b);
-        }
+        _producedIn.AddRange(buildings);
     }
 
     private static void ReplaceLines(List<RecipeLine> target, IEnumerable<RecipeLine> source, string parameterName)

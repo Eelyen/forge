@@ -33,7 +33,7 @@ internal static class ForgeDbSeeder
             cycleSeconds: 1.0m,
             ingredients: [new RecipeLine(ironOre.Id, 1m)],
             products: [new RecipeLine(ironIngot.Id, 1m)],
-            producedIn: [smelter.Id]);
+            producedIn: [new RecipeBuilding(smelter.Id)]);
 
         var makeIronPlate = Recipe.Create(
             slug: "iron-plate",
@@ -41,7 +41,7 @@ internal static class ForgeDbSeeder
             cycleSeconds: 3.0m,
             ingredients: [new RecipeLine(ironIngot.Id, 2m)],
             products: [new RecipeLine(ironPlate.Id, 1m)],
-            producedIn: [constructor.Id]);
+            producedIn: [new RecipeBuilding(constructor.Id)]);
 
         var makeIronRod = Recipe.Create(
             slug: "iron-rod",
@@ -49,7 +49,7 @@ internal static class ForgeDbSeeder
             cycleSeconds: 4.0m,
             ingredients: [new RecipeLine(ironIngot.Id, 1m)],
             products: [new RecipeLine(ironRod.Id, 1m)],
-            producedIn: [constructor.Id]);
+            producedIn: [new RecipeBuilding(constructor.Id)]);
 
         var makeScrew = Recipe.Create(
             slug: "screw",
@@ -57,7 +57,7 @@ internal static class ForgeDbSeeder
             cycleSeconds: 1.5m,
             ingredients: [new RecipeLine(ironRod.Id, 1m)],
             products: [new RecipeLine(screw.Id, 4m)],
-            producedIn: [constructor.Id]);
+            producedIn: [new RecipeBuilding(constructor.Id)]);
 
         // ---- Plan
         var starterPlan = Plan.Create("Starter Plan", "starter-plan");

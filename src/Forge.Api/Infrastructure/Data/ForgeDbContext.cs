@@ -121,7 +121,6 @@ public class ForgeDbContext : DbContext
 
         b.Navigation(x => x.Ingredients).UsePropertyAccessMode(PropertyAccessMode.Field);
         b.Navigation(x => x.Products).UsePropertyAccessMode(PropertyAccessMode.Field);
-        b.Navigation(x => x.ProducedIn).UsePropertyAccessMode(PropertyAccessMode.Field);
 
         b.OwnsMany(x => x.Ingredients, owned =>
         {
@@ -139,11 +138,11 @@ public class ForgeDbContext : DbContext
             owned.HasKey(nameof(RecipeId), nameof(RecipeLine.ItemId));
         });
 
-        b.OwnsMany("_producedIn", nameof(Recipe.ProducedIn), owned =>
+        b.OwnsMany(x => x.ProducedIn, owned =>
         {
             owned.ToTable("RecipeProducedIn");
             owned.WithOwner().HasForeignKey(nameof(RecipeId));
-            owned.HasKey(nameof(RecipeId), nameof(BuildingId));
+            owned.HasKey(nameof(RecipeId), nameof(RecipeBuilding.BuildingId));
         });
     }
 
