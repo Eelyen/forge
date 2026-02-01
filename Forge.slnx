@@ -3,4 +3,8 @@
     <Project Path="src/Forge.Api/Forge.Api.csproj" />
     <Project Path="src/Forge.Web/Forge.Web.csproj" />
   </Folder>
+  <Folder Name="/aspire/">
+    <Project Path="src/Forge.AppHost/Forge.AppHost.csproj" />
+    <Project Path="src/Forge.ServiceDefaults/Forge.ServiceDefaults.csproj" />
+  </Folder>
 </Solution>

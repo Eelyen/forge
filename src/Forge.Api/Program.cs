@@ -7,25 +7,25 @@ using Wolverine;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// --------------------
-// Infrastructure
-// --------------------
+// Aspire / shared defaults (telemtry, health checks, etc)
+builder.AddServiceDefaults();
 
+// OpenAI generation
+builder.Services.AddOpenApi();
+
+// Infrastructure
 builder.Services.AddDbContext<ForgeDbContext>(options =>
 {
-    options.UseSqlite(builder.Configuration.GetConnectionString("ForgeDb") ?? "Data Source=forge.db");
+    var cs = builder.Configuration.GetConnectionString("ForgeDb")
+             ?? "Data Source=forge.db";
+
+    options.UseSqlite(cs);
 });
 
-// --------------------
 // Wolverine
-// --------------------
-
 builder.Host.UseWolverine();
 
-// --------------------
 // App
-// --------------------
-
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -34,6 +34,10 @@ if (app.Environment.IsDevelopment())
     await app.Services.InitializeDatabaseAsync();
 }
 
+// Aspire defaults
+app.MapDefaultEndpoints();
+
+// App endpoints
 app.MapGet("/ping", (string? name, IMessageBus bus) => bus.InvokeAsync<Ping.Result>(new Ping.Query(name)));
 
 app.MapGet("/", () => "Forge API is running.");
