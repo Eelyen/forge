@@ -36,7 +36,7 @@ public class Recipe : Entity<RecipeId>
     {
         var recipe = new Recipe
         {
-            Id = RecipeId.New(),
+            Id = RecipeId.Create(),
             Name = Guard.Required(name, nameof(name), RecipeConstraints.NameMaxLength),
             Description = Guard.Optional(description, nameof(description), RecipeConstraints.DescriptionMaxLength),
             CycleSeconds = Guard.InRange(cycleSeconds, nameof(cycleSeconds), RecipeConstraints.MinCycleSeconds, RecipeConstraints.MaxCycleSeconds)
@@ -95,7 +95,7 @@ public class Recipe : Entity<RecipeId>
             Guard.Positive(line.AmountPerCycle, $"{parameterName}.{nameof(RecipeLine.AmountPerCycle)}");
         }
 
-        var consolidated = source
+        var consolidated = validated
             .GroupBy(l => l.ItemId)
             .Select(g => new RecipeLine(g.Key, g.Sum(x => x.AmountPerCycle)))
             .OrderBy(l => l.ItemId.Value)

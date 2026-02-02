@@ -23,7 +23,7 @@ public class Plan : Entity<PlanId>
     {
         var plan = new Plan
         {
-            Id = PlanId.New(),
+            Id = PlanId.Create(),
             Name = Guard.Required(name, nameof(name), PlanConstraints.NameMaxLength)            
         };
 

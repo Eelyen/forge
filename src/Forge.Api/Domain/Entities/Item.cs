@@ -26,7 +26,7 @@ public class Item : Entity<ItemId>
     {
         var item = new Item
         {
-            Id = ItemId.New(),
+            Id = ItemId.Create(),
             Name = Guard.Required(name, nameof(name), maxLength: ItemConstraints.NameMaxLength),
             Description = Guard.Optional(description, nameof(description), maxLength: ItemConstraints.DescriptionMaxLength),
             UnitKind = unitKind,

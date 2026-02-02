@@ -19,8 +19,8 @@ public class ForgeDbContext : DbContext
     public DbSet<Building> Buildings => Set<Building>();
     public DbSet<Recipe> Recipes => Set<Recipe>();
     public DbSet<Plan> Plans => Set<Plan>();
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        
+    protected override void OnModelCreating([System.Diagnostics.CodeAnalysis.NotNull] ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
 
@@ -59,7 +59,7 @@ public class ForgeDbContext : DbContext
         }
     }
 
-    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    protected override void ConfigureConventions([System.Diagnostics.CodeAnalysis.NotNull] ModelConfigurationBuilder configurationBuilder)
     {
         base.ConfigureConventions(configurationBuilder);
 

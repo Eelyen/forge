@@ -21,7 +21,7 @@ public sealed class Building : Entity<BuildingId>
     {
         var building = new Building
         {
-            Id = BuildingId.New(),
+            Id = BuildingId.Create(),
             Name = Guard.Required(name, nameof(name), BuildingConstraints.NameMaxLength),
             Description = Guard.Optional(description, nameof(description), BuildingConstraints.DescriptionMaxLength)
         };

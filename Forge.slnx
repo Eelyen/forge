@@ -1,10 +1,14 @@
 <Solution>
-  <Folder Name="/src/">
-    <Project Path="src/Forge.Api/Forge.Api.csproj" />
-    <Project Path="src/Forge.Web/Forge.Web.csproj" />
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitignore" />
+    <File Path="Directory.Build.props" />
+    <File Path="Directory.Packages.props" />
   </Folder>
   <Folder Name="/aspire/">
     <Project Path="src/Forge.AppHost/Forge.AppHost.csproj" />
     <Project Path="src/Forge.ServiceDefaults/Forge.ServiceDefaults.csproj" />
   </Folder>
+  <Project Path="src/Forge.Api/Forge.Api.csproj" />
+  <Project Path="src/Forge.Web/Forge.Web.csproj" />
 </Solution>

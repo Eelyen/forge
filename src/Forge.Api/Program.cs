@@ -36,4 +36,4 @@ app.MapGet("/ping", (string? name, IMessageBus bus) => bus.InvokeAsync<Ping.Resu
 
 app.MapGet("/", () => "Forge API is running.");
 
-app.Run();
+await app.RunAsync();
